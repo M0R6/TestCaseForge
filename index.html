@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TestCase Forge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            },
+            accent: {
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased transition-colors duration-200">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm sticky top-0 z-50 transition-colors duration-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <span class="text-xl font-bold text-brand-700 dark:text-brand-400 tracking-tight">TestCase <span class="text-accent-500">Forge</span></span>
+      </div>
+
+      <!-- Header actions -->
+      <div class="flex items-center gap-2">
+
+        <!-- Language Toggle -->
+        <button id="btnLangToggle"
+          class="flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-slate-600 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+          aria-label="Toggle language between English and Indonesian"
+          data-lang="en">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+          </svg>
+          <span id="langLabel">EN</span>
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <button id="btnDarkMode"
+          class="flex items-center gap-1.5 text-sm font-semibold px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-slate-600 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+          aria-label="Toggle dark mode">
+          <!-- Sun icon (shown in dark mode to switch to light) -->
+          <svg id="iconSun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 110 8 4 4 0 010-8z"/>
+          </svg>
+          <!-- Moon icon (shown in light mode to switch to dark) -->
+          <svg id="iconMoon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+
+        <!-- History Button -->
+        <button id="btnHistoryToggle"
+          class="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors px-3 py-1.5 rounded-lg hover:bg-brand-50 dark:hover:bg-slate-700"
+          aria-label="Toggle history panel">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span data-i18n="nav.history">History</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- ===== INPUT FORM CARD ===== -->
+    <section aria-labelledby="formHeading" class="card dark:card-dark">
+      <h2 id="formHeading" class="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-5" data-i18n="form.heading">Generate Test Cases</h2>
+      <form id="generatorForm" novalidate class="space-y-5">
+
+        <!-- Feature Name -->
+        <div>
+          <label for="featureName" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <span data-i18n="form.featureName">Feature Name</span>
+            <span class="text-red-500" aria-hidden="true"> *</span>
+          </label>
+          <input type="text" id="featureName" name="featureName"
+            class="input-field" data-i18n-placeholder="form.featureNamePlaceholder"
+            placeholder="e.g. User Login, File Upload, Payment Checkout"
+            aria-required="true" autocomplete="off" />
+          <p id="featureNameError" class="mt-1 text-xs text-red-500 hidden" role="alert" data-i18n="form.featureNameError">Feature name is required.</p>
+        </div>
+
+        <!-- Feature Description -->
+        <div>
+          <label for="featureDesc" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+            <span data-i18n="form.featureDesc">Feature Description / User Story</span>
+            <span class="text-red-500" aria-hidden="true"> *</span>
+          </label>
+          <textarea id="featureDesc" name="featureDesc" rows="4"
+            class="input-field resize-none"
+            data-i18n-placeholder="form.featureDescPlaceholder"
+            placeholder="e.g. As a user, I want to log in with my email and password so that I can access my account."
+            aria-required="true"></textarea>
+          <p id="featureDescError" class="mt-1 text-xs text-red-500 hidden" role="alert" data-i18n="form.featureDescError">Feature description is required.</p>
+        </div>
+
+        <!-- Test Type Selection -->
+        <div>
+          <fieldset>
+            <legend class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+              <span data-i18n="form.testTypes">Test Types</span>
+              <span class="text-red-500" aria-hidden="true"> *</span>
+            </legend>
+            <div class="flex flex-wrap gap-3" role="group" aria-label="Select test types">
+              <label class="type-checkbox-label">
+                <input type="checkbox" name="testType" value="Positive" class="sr-only type-checkbox" />
+                <span class="type-chip positive-chip">✓ <span data-i18n="type.positive">Positive</span></span>
+              </label>
+              <label class="type-checkbox-label">
+                <input type="checkbox" name="testType" value="Negative" class="sr-only type-checkbox" />
+                <span class="type-chip negative-chip">✕ <span data-i18n="type.negative">Negative</span></span>
+              </label>
+              <label class="type-checkbox-label">
+                <input type="checkbox" name="testType" value="Edge Case" class="sr-only type-checkbox" />
+                <span class="type-chip edge-chip">◈ <span data-i18n="type.edgeCase">Edge Case</span></span>
+              </label>
+            </div>
+            <p id="testTypeError" class="mt-1 text-xs text-red-500 hidden" role="alert" data-i18n="form.testTypeError">Select at least one test type.</p>
+          </fieldset>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-wrap gap-3 pt-1">
+          <button type="submit" id="btnGenerate"
+            class="btn-primary flex items-center gap-2"
+            aria-label="Generate test cases">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span data-i18n="form.btnGenerate">Generate Test Cases</span>
+          </button>
+          <button type="button" id="btnAddManual"
+            class="btn-secondary flex items-center gap-2"
+            aria-label="Manually add a test case">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span data-i18n="form.btnAddManual">Add Manually</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== RESULTS SECTION ===== -->
+    <section id="resultsSection" aria-labelledby="resultsHeading" class="hidden space-y-4">
+
+      <!-- Sticky Toolbar -->
+      <div class="results-sticky-header bg-slate-50 dark:bg-slate-900 pt-2 pb-3 transition-colors duration-200">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+          <div class="flex items-center gap-2">
+            <h2 id="resultsHeading" class="text-lg font-semibold text-slate-800 dark:text-slate-100" data-i18n="results.heading">Results</h2>
+            <span id="totalCount" class="badge badge-blue">0 total</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="btnCopy" class="btn-icon" aria-label="Copy all test cases to clipboard">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              <span data-i18n="results.btnCopy">Copy</span>
+            </button>
+            <button id="btnExportCSV" class="btn-icon" aria-label="Export test cases to CSV">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+              <span data-i18n="results.btnExport">Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2" role="tablist" aria-label="Filter test cases by type">
+          <button class="filter-tab active-tab" data-filter="All" role="tab" aria-selected="true">
+            <span data-i18n="filter.all">All</span> <span id="countAll" class="tab-count">0</span>
+          </button>
+          <button class="filter-tab" data-filter="Positive" role="tab" aria-selected="false">
+            <span data-i18n="type.positive">Positive</span> <span id="countPositive" class="tab-count">0</span>
+          </button>
+          <button class="filter-tab" data-filter="Negative" role="tab" aria-selected="false">
+            <span data-i18n="type.negative">Negative</span> <span id="countNegative" class="tab-count">0</span>
+          </button>
+          <button class="filter-tab" data-filter="Edge Case" role="tab" aria-selected="false">
+            <span data-i18n="type.edgeCase">Edge Case</span> <span id="countEdge" class="tab-count">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards Container (drag-and-drop target) -->
+      <div id="testCaseCards" class="space-y-3" aria-live="polite" aria-label="Test case results"></div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-16">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
+          <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+        </div>
+        <p class="text-slate-500 dark:text-slate-400 text-sm" data-i18n="results.empty">No test cases match this filter.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== HISTORY PANEL (side drawer) ===== -->
+  <aside id="historyPanel"
+    class="fixed inset-y-0 right-0 w-80 bg-white dark:bg-slate-800 border-l border-slate-200 dark:border-slate-700 shadow-xl z-40 transform translate-x-full transition-transform duration-300"
+    aria-label="History panel" aria-hidden="true">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-700">
+      <h3 class="font-semibold text-slate-800 dark:text-slate-100" data-i18n="history.heading">Generation History</h3>
+      <button id="btnCloseHistory" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded" aria-label="Close history panel">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="historyList" class="overflow-y-auto h-full pb-24 p-4 space-y-3" aria-live="polite"></div>
+  </aside>
+  <div id="historyOverlay" class="fixed inset-0 bg-black/30 z-30 hidden" aria-hidden="true"></div>
+
+  <!-- ===== MODAL (Edit / Add Test Case) ===== -->
+  <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="absolute inset-0 bg-black/40" id="modalBackdrop"></div>
+    <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+        <h3 id="modalTitle" class="font-semibold text-slate-800 dark:text-slate-100 text-lg" data-i18n="modal.addTitle">Add Test Case</h3>
+        <button id="btnCloseModal" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded" aria-label="Close modal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form id="modalForm" class="p-6 space-y-4" novalidate>
+        <input type="hidden" id="modalTcId" />
+        <div>
+          <label for="modalTitle_" class="field-label">
+            <span data-i18n="modal.labelTitle">Title</span>
+            <span class="text-red-500" aria-hidden="true"> *</span>
+          </label>
+          <input type="text" id="modalTitle_" class="input-field" aria-required="true" />
+          <p id="modalTitleError" class="mt-1 text-xs text-red-500 hidden" role="alert" data-i18n="modal.titleError">Title is required.</p>
+        </div>
+        <div>
+          <label for="modalPreconditions" class="field-label" data-i18n="modal.labelPreconditions">Preconditions</label>
+          <textarea id="modalPreconditions" rows="2" class="input-field resize-none"></textarea>
+        </div>
+        <div>
+          <label for="modalSteps" class="field-label">
+            <span data-i18n="modal.labelSteps">Steps</span>
+            <span class="text-red-500" aria-hidden="true"> *</span>
+          </label>
+          <textarea id="modalSteps" rows="3" class="input-field resize-none" aria-required="true"></textarea>
+          <p id="modalStepsError" class="mt-1 text-xs text-red-500 hidden" role="alert" data-i18n="modal.stepsError">Steps are required.</p>
+        </div>
+        <div>
+          <label for="modalExpected" class="field-label">
+            <span data-i18n="modal.labelExpected">Expected Result</span>
+            <span class="text-red-500" aria-hidden="true"> *</span>
+          </label>
+          <textarea id="modalExpected" rows="2" class="input-field resize-none" aria-required="true"></textarea>
+          <p id="modalExpectedError" class="mt-1 text-xs text-red-500 hidden" role="alert" data-i18n="modal.expectedError">Expected result is required.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="modalType" class="field-label" data-i18n="modal.labelType">Type</label>
+            <select id="modalType" class="input-field">
+              <option value="Positive" data-i18n="type.positive">Positive</option>
+              <option value="Negative" data-i18n="type.negative">Negative</option>
+              <option value="Edge Case" data-i18n="type.edgeCase">Edge Case</option>
+            </select>
+          </div>
+          <div>
+            <label for="modalPriority" class="field-label" data-i18n="modal.labelPriority">Priority</label>
+            <select id="modalPriority" class="input-field">
+              <option value="High" data-i18n="priority.high">High</option>
+              <option value="Medium" data-i18n="priority.medium">Medium</option>
+              <option value="Low" data-i18n="priority.low">Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="btn-primary flex-1" data-i18n="modal.btnSave">Save</button>
+          <button type="button" id="btnCancelModal" class="btn-secondary flex-1" data-i18n="modal.btnCancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden" role="status" aria-live="polite">
+    <div class="bg-slate-800 dark:bg-slate-700 text-white text-sm px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 toast-animate">
+      <svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+      <span id="toastMessage">Done!</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
